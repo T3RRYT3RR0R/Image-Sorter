@@ -1,7 +1,7 @@
 # github self updater. Opt-In.  
   #  Update file
 __key__ = "4275339c153dab609e6e372805a08ffd6ed8813c97f01ea263b784760711dcc5"
-__version__ = "0.0.0"
+__version__ = "0.0.1"
 
 def fetch_all_updates_from_github(
     repo_owner: str,
