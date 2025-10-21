@@ -13,23 +13,32 @@
  - This program has a self-update feature. Updating is Opt in. It is recommended to [review updates](https://github.com/T3RRYT3RR0R/Image-Sorter/tree/main/updates) prior to opting in.
 
 
-## Installation and release download
+## Installation Download:
 
-1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  The assets list contains a 7‑Zip archive named **`Image‑Sorter.7z.001`**.  Download **all** `.7z.00X` parts provided in that release (these split files collectively contain the Windows executable and supporting files).
-2. Use [7‑Zip](https://www.7-zip.org/) on Windows or the `7z` command on Linux/macOS to extract the archive.  Right‑click the `.001` file and choose “Extract here” with 7‑Zip
-3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
+  1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  The assets list contains a 7‑Zip archive named **`Image‑Sorter.7z.001`**.  Download **all** `.7z.00X` parts provided in that release (these split files collectively contain the Windows executable and supporting files).
+  2. Use [7‑Zip](https://www.7-zip.org/) on Windows or the `7z` command on Linux/macOS to extract the archive.  Right‑click the `.001` file and choose “Extract here” with 7‑Zip
+  3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
 
  
 ## Key features
 
-* **Simple GUI or CLI** – When you run `image‑sorter.exe` without command‑line arguments an interactive form is displayed.  You can select a source directory, a destination, the batch size used when feeding images to CLIP, opt into a dry‑run, save a mapping of moved files, disable captioning for faster operation, monitor the source directory for new files and choose a CLIP model from a drop‑down list.
-* **Zero‑shot style categorisation** – A set of **root categories** provides broad buckets such as *astrophotography*, *photography*, *illustration*, *fantasy art*, *macro photography*, *sketch*, *anime*, *painting* and *abstract*.  CLIP text prompts are automatically constructed from these categories and the subject list, and the model picks the best matching pair.
-* **Subject detection and captioning** – The default **subjects** list includes dozens of common themes (e.g., `fairy`, `cat`, `windmill`, `sunset`, `space`).  After classification, an optional BLIP captioner produces natural language descriptions.  These captions can rename images using safe, slugified filenames and provide context for the classification.
-* **Smart heuristics** – Dictionaries of *filter* words (e.g. “nsfw” triggers a special folder), *subject overrides* and *category overrides* allow the script to correct poor predictions based on caption keywords.  A *collate mapping* groups semantically similar subjects under a single folder (e.g. `sunrise` and `sun rays` fall under `sunset`).
-* **Self‑updating** – By default the program runs completely offline, but you can enable automatic update checks to download any new patches from the repository.
-* **Cross‑platform file operations** – On Windows, creation times are preserved when moving files across disks; on all platforms the tool handles long paths and rejects identical source/destination directories.
+ * **Simple GUI or CLI** – When you run `image‑sorter.exe` without command‑line arguments an interactive form is displayed.
+   You can select a source directory, a destination, the batch size used when feeding images to CLIP, opt into a dry‑run,
+   save a mapping of moved files, disable captioning for faster operation, monitor the source directory for new files and choose a CLIP model from a drop‑down list.
+ * **Zero‑shot style categorisation** – A set of **root categories** provides broad buckets such as:
+   *astrophotography*, *photography*, *illustration*, *fantasy art*, *macro photography*, *sketch*, *anime*, *painting* and *abstract*.
+   CLIP text prompts are automatically constructed from these categories and the subject list, and the model picks the best matching pair.
+ * **Subject detection and captioning** – The default **subjects** list includes dozens of common themes (e.g:`fairy`, `cat`, `windmill`, `sunset`, `space`).
+   After classification, an optional BLIP captioner produces natural language descriptions.
+   These captions rename images using safe, slugified filenames and provide context for the classification.
+ * **Smart heuristics** – Dictionaries of *filter* words (e.g. “nsfw” triggers a special folder), *subject overrides* and *category overrides*
+   allow the script to correct poor predictions or enforce specific overides based on caption keywords.
+   A *collate mapping* groups semantically similar subjects under a single folder (e.g. `sunrise` and `sun rays` fall under `sunset`).
+ * **Self‑updating** – Disabled by default, the user can opt-in to enable automatic update checks that download new patches from the repository.
+ * **Cross‑platform file operations** – On Windows, creation times are preserved when moving files across disks; on all platforms the tool
+   handles long paths and rejects identical source/destination directories.
 
-## Using Image Sorter
+# Using Image Sorter
 
 ### Graphical interface
 
