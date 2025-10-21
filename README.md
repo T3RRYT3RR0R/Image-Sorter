@@ -39,6 +39,7 @@
    handles long paths and rejects identical source/destination directories.
 
 ### Using Image-Sorter
+![Image Sorter graphical interface](fe47d001-b192-444b-b152-a89fc6d758b3.png)
 
 Running the program without arguments launches the **GUI**.  Fields and check boxes correspond to command‑line options:
 
@@ -54,10 +55,6 @@ Running the program without arguments launches the **GUI**.  Fields and check bo
 | **Monitor directory** | When enabled the app watches the source folder and automatically processes new images as they appear. |
 | **Get latest Updates** | Enables self‑update checks. |
 | **Clip model** | Choose a CLIP variant (e.g. `ViT‑B/32`, `ViT‑L/14`) or type in a model name.  Larger models may improve accuracy at the cost of slower downloads and inference. |
-
-GUI:
-
-![Image Sorter graphical interface](fe47d001-b192-444b-b152-a89fc6d758b3.png)
 
 To start sorting images, choose your source and destination, adjust any optional settings and click **Start**.  Progress is displayed in the console window, and the program closes when all images are processed - unless the watch directory option is active.
 
