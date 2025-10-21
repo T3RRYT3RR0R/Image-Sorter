@@ -9,7 +9,7 @@
 
 ## Installation / Download:
 
-  1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  The assets list contains a 7‑Zip archive named **`Image‑Sorter.7z.001`**. [The original python code](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/source.py).
+  1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  Download the **`Image‑Sorter.7z.001`** 7‑Zip archive file from the Assets list. [The original python code](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/source.py).
   2. Use [7‑Zip](https://www.7-zip.org/) on Windows or the `7z` command on Linux/macOS to extract the archive.  Right‑click the `.001` file and choose “Extract here” with 7‑Zip
   3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
 
