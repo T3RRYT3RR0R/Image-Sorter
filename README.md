@@ -12,11 +12,13 @@
  - Captioning is resource intensive. It is not recommended for people who do not Have a Cuda capable graphics card
  - This program has a self-update feature. Updating is Opt in. It is recommended to [review updates](https://github.com/T3RRYT3RR0R/Image-Sorter/tree/main/updates) prior to opting in.
 
+
 ## Installation and release download
 
 1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  The assets list contains a 7‑Zip archive named **`Image‑Sorter.7z.001`**.  Download **all** `.7z.00X` parts provided in that release (these split files collectively contain the Windows executable and supporting files).
 2. Use [7‑Zip](https://www.7-zip.org/) on Windows or the `7z` command on Linux/macOS to extract the archive.  Right‑click the `.001` file and choose “Extract here” with 7‑Zip
 3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
+
  
 ## Key features
 
