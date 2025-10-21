@@ -1,1 +1,0 @@
-image-sorter.exe dependencies
