@@ -1,7 +1,7 @@
 
 # Image Sorter
 
-## LEGAL DISCLAIMER:
+**LEGAL DISCLAIMER:**
  - This freeware is provided as-is and without warranty.
    By downloading, THE USER acknowledges that the Author of this software will NOT accept liability for any loss or potential harm arising from its use.
 
