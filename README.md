@@ -1,16 +1,22 @@
 
 # Image Sorter
 
-LEGAL DISCLAIMER:
+## LEGAL DISCLAIMER:
  - This freeware is provided as-is and without warranty.
    By downloading, THE USER acknowledges that the Author of this software will NOT accept liability for any loss or potential harm arising from its use.
 
 **Image Sorter** is a content‑aware utility that helps you bring order to large collections of photographs, illustrations and artwork.  Powered by OpenAI’s CLIP model for zero‑shot image classification, it groups your pictures into broad *style* categories (e.g., photography, illustration, fantasy art) and then further organises them by *subject* such as animals, landscapes or people.  An optional BLIP captioner generates descriptive filenames so that each image is easy to recognise even outside the organiser.  With a simple graphical interface or a command‑line mode, Image Sorter streamlines curation of your visual library and can monitor folders for new files.
 
-Important user Notes:
+## Important user Notes:
  - Captioning will replace the filename with the caption. If this behaviour is undesired, Be sure to Select 'No Captioning' 
  - Captioning is resource intensive. It is not recommended for people who do not Have a Cuda capable graphics card
  - This program has a self-update feature. Updating is Opt in. It is recommended to [review updates](https://github.com/T3RRYT3RR0R/Image-Sorter/tree/main/updates) prior to opting in.
+
+## Installation and release download
+
+1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  The assets list contains a 7‑Zip archive named **`Image‑Sorter.7z.001`**.  Download **all** `.7z.00X` parts provided in that release (these split files collectively contain the Windows executable and supporting files).
+2. Use [7‑Zip](https://www.7-zip.org/) on Windows or the `7z` command on Linux/macOS to extract the archive.  Right‑click the `.001` file and choose “Extract here” with 7‑Zip
+3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
  
 ## Key features
 
@@ -20,12 +26,6 @@ Important user Notes:
 * **Smart heuristics** – Dictionaries of *filter* words (e.g. “nsfw” triggers a special folder), *subject overrides* and *category overrides* allow the script to correct poor predictions based on caption keywords.  A *collate mapping* groups semantically similar subjects under a single folder (e.g. `sunrise` and `sun rays` fall under `sunset`).
 * **Self‑updating** – By default the program runs completely offline, but you can enable automatic update checks to download any new patches from the repository.
 * **Cross‑platform file operations** – On Windows, creation times are preserved when moving files across disks; on all platforms the tool handles long paths and rejects identical source/destination directories.
-
-## Installation and release download
-
-1. Visit the [v0.0.1 release page](https://github.com/T3RRYT3RR0R/Image-Sorter/releases/tag/v0.0.1) on GitHub.  The assets list contains a 7‑Zip archive named **`Image‑Sorter.7z.001`**.  Download **all** `.7z.00X` parts provided in that release (these split files collectively contain the Windows executable and supporting files).
-2. Use [7‑Zip](https://www.7-zip.org/) on Windows or the `7z` command on Linux/macOS to extract the archive.  Right‑click the `.001` file and choose “Extract here” with 7‑Zip
-3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
 
 ## Using Image Sorter
 
