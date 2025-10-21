@@ -1,0 +1,244 @@
+```py
+# CONSTANTS - Default values. Update possible using config files
+# Style Taxonomy used to generate CLIP prompts dataset
+ROOT_CATEGORIES = [# zero shot catagory embeddings
+    "astrophotography", "photography", "illustration", "fantasy art", "macro photography", "sketch", "anime", "painting", "abstract",
+]
+
+# zero shot classification subject embeddings
+SUBJECTS = [
+    "fairy", "fashion-model", "extreme weather", "reef", "lightning", "architecture", "cat", "dog",
+    "bat", "dragon", "bird", "rat", "squirrel", "kangaroo", "pig", "crocodile", "koala", "monkey",
+    "horse", "duck", "platypus",  "giraffe", "elephant", "hippopotomus", "zebra", "rhinocerous",
+    "leopard", "octopus", "train-station", "space-station", "space", "landscape", "cityscape",
+    "river", "car", "plane", "ship", "artifact", "interior-design", "animal", "flower", "waterfall",
+    "sunset", "insect", "comet", "demon", "galaxy", "lighthouse", "wind turbine", "windmill",
+    "dragon", "spider", "woman", "man", "black hole", "skateboarder", "surfer", "snowboarder",
+    "bicycle", "cyclist", "motorbike", "volcano", "valley",
+]
+
+PROMPT_TEMPLATES: Dict[str, List[str]] = {# zero shot prompt templates constructed from category and subject
+    "macro photography": [
+        "a photo of a {subject} with a blurry background",
+        "a clear and detailed photo of a {subject}",
+        "macro-photography of a {subject}",
+    ],
+    "astrophotography": [
+        "a photograph of a stars and nebula",
+        "a photo of a galaxy and stars",
+        "a realistic photo of a galaxy with stars",
+    ],
+    "photography": [
+        "a professional portrait of a {subject}",
+        "a photograph of a {subject}",
+        "a photo of a {subject}",
+        "a realistic photo of a {subject}",
+        "a close-up photograph of a {subject}",
+        "a documentary still of extreme weather",
+        "a night landscape photo of a {subject}",
+    ],
+    "illustration": [
+        "an illustration of a {subject}",
+        "a detailed illustration of a {subject}",
+        "a drawing of a {subject}",
+    ],
+    "abstract": [
+        "abstract concept of a {subject}",
+        "abstract art of a {subject}",
+        "fractal image a {subject}",
+    ],
+    "painting": [
+        "an impressionistic painting of a {subject}",
+        "a watercolor painting of a {subject}",
+        "a pointillism painting of a {subject}",
+        "an abstract painting of a {subject}",
+    ],
+    "fantasy art": [
+        "fantasy art of a {subject}",
+        "a fantasy artwork of a {subject}",
+        "concept art of a {subject}",
+        "art of a human {subject} with wings",
+    ],
+    "sketch": [
+        "a sketch of a {subject}",
+        "a pencil sketch of a {subject}",
+        "a rough sketch of a {subject}",
+        "charcoal drawing of a {subject}",
+    ],
+    "anime": [
+        "an anime‑style {subject}",
+        "anime artwork of a {subject}",
+        "an anime illustration of a {subject}",
+    ],
+}
+
+# -----------------------------------------------------------------------------
+# 'Strict' categorisation forcing. Used to push very specific terms
+# into a particular category / category not defined in ROOT_CATEGORIES
+# Filtering takes first match - overrides category if found in caption
+# key position in dictionary determines precedence.
+FILTER = {  # map specific overrides to category folder based on caption content
+    "nude": "NSFW", "naked": "NSFW", "porn": "NSFW", "areola": "NSFW", "nipple": "NSFW", "nsfw": "NSFW", "phallus": "NSFW", "penis": "NSFW",
+}
+
+# -----------------------------------------------------------------------------
+# Subject override heuristics
+#
+# BLIP captions can sometimes include words that more accurately describe the
+# depicted subject than the CLIP model's initial prediction.  This
+# dictionary allows subject names to be overridden when specific keywords
+# appear in the generated caption.  The structure supports two forms of
+# overrides:
+#
+#     SUBJECT_OVERRIDE_RULES = {
+#         "original_subject": "keyword",
+#         "other_subject": {
+#             "new_subject": ["keyword1", "keyword2", ...],
+#             ...
+#         },
+#         ...
+#     }
+#
+# A simple string value indicates that when the caption contains the given
+# keyword, the original subject should be replaced with the keyword itself.
+# For nested dictionaries, each key represents a candidate new subject and
+# the corresponding value is a sequence of keywords.  All keywords in the
+# sequence must be present in the lowercase caption in order for the
+# override to apply.  If no keywords match, the original subject is
+# preserved.  Leaving this dictionary empty disables subject override
+# heuristics.
+# Subkeys intended as directory overrides may contain a nested structure:
+# IE: 
+pets = "cat", "dog"
+wild_animals = (
+    "tiger", "leopard", "girrafe", "crocodile", "gorilla", "snake", "eagle",
+    "elephant", "zebra", "rhinocerous", "hippopotomus", "pig", "duck", "squirrel",
+    "kangaroo", "platypus", "koala", "monkey", "horse"
+)
+SUBJECT_OVERRIDE_RULES: Dict[str, object] = {
+    "fairy": "angel",
+    "angel": ["woman","wings"],
+    "lighthouse": {
+        "seascape": "castle",
+    },
+    "windmills": "wind turbine",
+    "demon": {
+       "devil": ["red", "horn", "tail"],
+       "minotaur": "minotaur",
+    },
+    "fashion-model": {
+       "angel": ["woman", "wings"],
+    },
+}
+
+# Dictionary structure for rules application is as Above
+STRICT_CATEGORY_OVERRIDE_RULES: Dict[str, object] = {
+    "astrophotography": {
+        "landscape / Sunset": "sunset",
+        "landscape / Sunrise": "sunrise",
+        "landscape / Sun Rays": "sun rays",
+        "fantasy art / angel": {("man","wings",), ("woman","wings",),},
+        "painting / humanoid": {("painting","woman",),("painting","man",),("painting","person",),("painting","child",),("painting","human",),},
+        "fantasy art / humanoid": {("woman"), ("human"), ("person"), ("child"), ("man")},
+    },
+    "astrophotography / fashion-model": {
+        "photography / fashion-model": {("model",),("woman",),("man",)},
+    },
+    "fashion-model": {
+        "fantasy art": ["woman","moon",],
+    },
+    "fantasy art": {
+        "fantasy art / people": {("woman",),("man",),("human",),("person",),("child",)},
+    },
+    "photography": {
+        "macro photography": "a close up",
+    },
+}
+
+# this dictionary is used to collate similar subjects together for directory naming
+# Target is the directory name as dictionary key, values are the like subjects to be collated
+COLLATE_MAPPING = { 
+    "sunset": ["sunrise", "sun rays",],
+    "angels and fairies": ["angel", "fairy",],
+    "humanoid": ["woman", "man", "humanoid",],
+    "landscape": ["lightning", "windmills", "wind turbine", "lighthouse", "farm", "valley",],
+}
+
+# Ensure all ROOT_CATEGORIES keys exist
+for root in ROOT_CATEGORIES:
+    STRICT_CATEGORY_OVERRIDE_RULES.setdefault(root, {})
+
+    for pet in pets:
+        # Add pets under each root
+        STRICT_CATEGORY_OVERRIDE_RULES[root][f"{root} / animal / pet / {pet.lower()}"] = pet.lower()
+    # Add wild animals under each root
+    for animal in wild_animals:
+        STRICT_CATEGORY_OVERRIDE_RULES[root][f"{root} / animal / wild / {animal.lower()}"] = animal.lower()
+
+# -----------------------------------------------------------------------------
+# Category override heuristics
+#
+# Some images can plausibly belong to multiple categories.  The CLIP model
+# returns similarity scores (stored in ``category_sums``) for each root
+# category, and the highest score is selected as the best category.  However,
+# captions may contain clues that suggest a different artistic medium (e.g.
+# "sketch" or "anime"), and the category scores for these secondary
+# categories might be only marginally lower than the best score.  To better
+# reflect the true intent of the caption, this dictionary allows certain
+# categories to be chosen when they are mentioned explicitly in the caption and
+# the score difference relative to the best category is within a threshold.
+#
+# The structure is::
+#
+#     CATEGORY_OVERRIDE_RULES = {
+#         "target_category": {
+#             "keyword": score_threshold,
+#             ...
+#         },
+#         ...
+#     }
+#
+# When a ``keyword`` is found in the lowercase caption and the difference
+# ``category_sums[best_category] - category_sums[target_category]`` is less
+# than or equal to ``score_threshold``, the ``target_category`` will replace
+# the best category.  You can adjust the keywords and thresholds to suit your
+# dataset; leaving this dictionary empty disables the heuristic.
+CATEGORY_OVERRIDE_RULES: Dict[str, Dict[str, float]] = {
+    # Example rule: override to "sketch" if the caption mentions "sketch" or
+    # "drawing" and the category score difference is small.  The threshold
+    # values here are conservative; you may need to tune them empirically.
+    # higher values = likelier to overide, 1 = forced overide
+    # RECOMMENDATION : scale threshold values based on specifity of the target subkey of the caption.
+    # IE:              "photo"            - a common occurance in captions: threshold <= 0.2
+    #                  "man walking down" - very specific                 : threshold >= 0.98 
+    #
+    # "sketch": {"sketch": 0.2, "drawing": 0.2, "pencil": 0.3},
+    # "anime": {"anime": 0.2, "manga": 0.3, "chibi": 0.3},
+    # Add further categories and keywords below as needed.
+    "photography": {
+        "interior design": 1, "coffee table": 1, "man walking down": 0.98, "catwalk": 0.15,
+        "photo": 0.1, "has taken a picture": 0.15, "wild-life": 0.15, "wildlife": 0.15, "photograph": 0.15,
+        "photograph": 0.15, "portrait": 0.1, "documentary": 0.15, "landscape": 0.15,
+        "make-up": 0.15, "make up": 0.15,
+    },
+    "anime": {"anime": 0.20, "manga": 0.25, "chibi": 0.25, "studio ghibli": 0.25},
+    "sketch": {"black and white drawing": 0.2, "pencil sketch": 0.3, "crayon drawing": 0.15},
+    "macro photography": {"flower": 0.15,"orchid": 0.15, "insect": 0.15, "butterfly": 0.15, "bee": 0.15, "damsel-fly": 0.15, "damselfly": 0.15, "dragon-fly": 0.15, "dragonfly": 0.15,"scorpion": 0.15, "spider": 0.15},
+    "fantasy art": {"world of warcraft": 1, "dungeons and dragons": 1, "woman": 0.05,}
+}
+
+RULES_CONFIG = (
+    "SUBJECTS",          # Subjects   that CLIP may select from. should be distinct and avoid conceptual Overlap.
+    "ROOT_CATEGORIES",   # Catagories that CLIP may select from. should be distinct and avoid conceptual Overlap.
+                         # - Categories defined in this dictionary must have corresponding keys in PROMPT_TEMPLATES
+    "PROMPT_TEMPLATES",  # Templates used to generate CLIP embeddings for SUBJECTS ROOT_CATGORIES combinations
+    "FILTER",            # Simple NSFW filtering based on the presence of defined words in the BLIP caption
+    "COLLATE_MAPPING",   # Used to group conceptually-like SUBJECTS
+    "STRICT_CATEGORY_OVERRIDE_RULES", # Used to preference Category based on content of the generated BLIP prompt. 
+    "SUBJECT_OVERRIDE_RULES",         # Used to preference  Subject based on content of the generated BLIP prompt.
+    "CATEGORY_OVERRIDE_RULES",        # Allows fine tuned biasing of category based on subject. 
+)
+
+# file extensions considered as images
+IMAGE_EXTS = {".jpg", ".jpeg", ".jfif", ".png", ".bmp", ".tif", ".tiff", ".webp"}
+```
