@@ -57,7 +57,7 @@ Running the program without arguments launches a friendly dialog.  Fields and ch
 | **Get latest Updates** | Enables self‑update checks. |
 | **Clip model** | Choose a CLIP variant (e.g. `ViT‑B/32`, `ViT‑L/14`) or type in a model name.  Larger models may improve accuracy at the cost of slower downloads and inference. |
 
-Below is a screenshot of the GUI illustrating these controls:
+GUI:
 
 ![Image Sorter graphical interface](fe47d001-b192-444b-b152-a89fc6d758b3.png)
 
