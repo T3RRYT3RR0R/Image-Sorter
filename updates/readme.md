@@ -18,7 +18,7 @@ The [self-update](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/updates/
 ### A note on the methodology of Base-code / Update handling:
 code within the script is segmented and wrapped in a function call that:
  - If no corresponding update file exists, executes the base code
-   ***else:***
+  - ***else:***
  - Executes the code in the update file.
  - Update segments may have cross dependencies. For this reason,
    updates from the manifest are persistent.
