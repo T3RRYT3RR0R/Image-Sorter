@@ -1,39 +1,26 @@
 # github self updater. Opt-In.  
   #  Update file
+  #  v0.0.2: When updating enabled, file is downloaded if missing locally regardless of updates.json metadata.
+  #  v0.0.1: Modified to make updating opt-in via prefs file / gui checkbox.
 __key__ = "4275339c153dab609e6e372805a08ffd6ed8813c97f01ea263b784760711dcc5"
-__version__ = "0.0.1"
+__version__ = "0.0.2"
 
 def fetch_all_updates_from_github(
     repo_owner: str,
     repo_name: str,
     branch: str = "main",
     subdir: str = "updates",
-    config_dir: str = "./config",     # provide your config_dir path
-    updates_dir: str = "./updates",   # provide your updates_dir path
+    config_dir: str = "./config",
+    updates_dir: str = "./updates",
 ):
-    
-    # Fetch and cache self‑update scripts from GitHub.
+    # Fetch and cache self-update scripts from GitHub.
+    import os
+    import json
+    import datetime as dt
+    import requests
+    from pathlib import Path
+    from typing import Any, Dict
 
-    # The updater reads a version manifest (``update_ver.json``) from the
-    # specified repository and determines which update files to download based on
-    # version information stored in a local ``updates.json``.  Only files with
-    # newer versions or missing entries are retrieved, and the check runs at
-    # most once per day.
-
-    # Args:
-    #    repo_owner: GitHub username or organisation owning the repo.
-    #    repo_name: Name of the GitHub repository.
-    #    branch: Branch from which to fetch updates (default "main").
-    #    subdir: Subdirectory within the repository containing updates and the
-    #        ``update_ver.json`` manifest (default "updates").
-    #    config_dir: Local directory to store ``updates.json`` and
-    #        ``update_check.txt`` (default ``./config``).
-    #    updates_dir: Local directory in which to write downloaded update
-    #        scripts (default ``./updates``).
-
-    # Returns:
-    #    None
- 
     # Ensure directories exist
     os.makedirs(config_dir, exist_ok=True)
     os.makedirs(updates_dir, exist_ok=True)
@@ -52,9 +39,9 @@ def fetch_all_updates_from_github(
             saved_prefs = {}
 
     Auto_Update = bool(saved_prefs.get("AutoUpdate", False))
-
     if not Auto_Update:
-       return
+        return
+
     # Load existing version data (filename -> manifest string)
     if os.path.exists(updates_json):
         try:
@@ -74,8 +61,7 @@ def fetch_all_updates_from_github(
             if last_check_date == dt.date.today():
                 return
         except (ValueError, IOError):
-            # ignore bad date and proceed
-            pass
+            pass  # ignore bad date and proceed
 
     # Build remote URLs for the manifest and raw files
     raw_base = f"https://raw.githubusercontent.com/{repo_owner}/{repo_name}/{branch}/{subdir}"
@@ -86,7 +72,7 @@ def fetch_all_updates_from_github(
         # Download and parse the remote version manifest
         resp = requests.get(manifest_url, timeout=10)
         resp.raise_for_status()
-        manifest = resp.json()  # Expecting a dict of {filename: "ver:X.Y.Z key:..."}
+        manifest = resp.json()  # Expecting dict of {filename: "ver:X.Y.Z key:..."}
 
         # Iterate through each declared update file
         for filename, remote_meta in manifest.items():
@@ -96,13 +82,38 @@ def fetch_all_updates_from_github(
 
             remote_version, remote_key = _parse_version_key(remote_meta)
             local_meta = local_versions.get(filename, "")
-            # Extract local version (if present) from the stored meta value
             local_version = ""
             if isinstance(local_meta, str):
                 local_version, _ = _parse_version_key(local_meta)
 
+            local_path = os.path.join(updates_dir, filename)
+
+            # If file is missing locally, download it regardless of version
+            if not os.path.exists(local_path):
+                print(f"[Info] '{filename}' listed in manifest but missing locally. Downloading...")
+                file_url = f"{raw_base}/{filename}"
+                try:
+                    content_resp = requests.get(file_url, timeout=10)
+                    content_resp.raise_for_status()
+                    content = content_resp.text
+                    remote_version = _extract_version_from_file(content)
+                except requests.RequestException:
+                    print(f"[Update Check] Failed to download missing file {filename}")
+                    continue
+
+                with open(local_path, "w", encoding="utf-8") as out:
+                    out.write(content)
+
+                local_versions[filename] = remote_meta
+                print(f"[Fetched Missing] {filename} (ver {remote_version})")
+                fetched_any = True
+                continue  # skip version based update check when file missing locally.
+
             # Determine whether to update
             if filename not in local_versions or _is_version_newer(remote_version, local_version):
+                if local_version == remote_version:
+                    continue  # Skip if versions are identical
+
                 # Download the actual update file
                 file_url = f"{raw_base}/{filename}"
                 try:
@@ -111,15 +122,12 @@ def fetch_all_updates_from_github(
                     content = content_resp.text
                     remote_version = _extract_version_from_file(content)
                 except requests.RequestException:
-                    # Skip this file if it cannot be downloaded
                     print(f"[Update Check] Failed to download {filename}")
                     continue
 
-                local_path = os.path.join(updates_dir, filename)
                 with open(local_path, "w", encoding="utf-8") as out:
                     out.write(content)
 
-                # Update the metadata for this file
                 local_versions[filename] = remote_meta
                 print(f"[Fetched] {filename} (ver {remote_version})")
                 fetched_any = True
