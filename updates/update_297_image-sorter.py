@@ -1,6 +1,7 @@
 # github self updater. Opt-In.  
   #  Update file
   # v.0.0.2: When updating enabled, file is downloaded if missing locally regardless of local manifest metadata (updates.json).
+  #          This change creates persistence for update files logged in the manifest while self-updating is enabled.
   # v.0.0.1: Modified to make updating opt-in via prefs file / gui checkbox.
 __key__ = "4275339c153dab609e6e372805a08ffd6ed8813c97f01ea263b784760711dcc5"
 __version__ = "0.0.2"
