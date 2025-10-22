@@ -1,5 +1,5 @@
 # update files
-# future updates will contain comments explaining what has changed and why.
+## future updates will contain comments explaining what has changed and why.
 
 The [self-update](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/updates/update_297_image-sorter.py) system adheres to the following control flow:
 
