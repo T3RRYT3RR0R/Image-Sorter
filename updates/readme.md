@@ -5,12 +5,12 @@ The [self-update](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/updates/
 
  - define path constants
  - load user preferences
- - If user has not opted in:
+ - ***If user has not opted in***:
    - Abort
- - else:
+ - ***else***:
    - retrieve remote manifest from update_ver.json [manifest](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/updates/update_ver.json)
    - iterate remote manifest
-   - test if manifest item exists on local path, **if false**:
+   - test if manifest item exists on local path, ***if false***:
      - download item and continue
-       **else**:
+       ***else***:
      - download item if the version is newer than that recorded in the local manifest.
