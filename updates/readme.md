@@ -1,7 +1,7 @@
-# update files
-## future updates will contain comments explaining what has changed and why.
+# update files + update manifest
+## update files are headed with a changelog explaining changes by version.
 
-The [self-update](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/updates/update_297_image-sorter.py) system adheres to the following control flow:
+The [self-update](https://github.com/T3RRYT3RR0R/Image-Sorter/blob/main/updates/update_297_image-sorter.py) function adheres to the following control flow:
 
  - define path constants
  - load user preferences
