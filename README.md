@@ -15,7 +15,10 @@
   3. Open the extracted folder.  The main executable is `image‑sorter.exe`.  You can run it directly from Explorer or via the command line.
 
 ## Important user Notes:
- - Captioning will replace the filename with the caption. If this behaviour is undesired, Be sure to Select 'No Captioning' 
+ - Captioning will replace the filename with the caption. If this behaviour is undesired:
+   - Select 'No Captioning' 
+   - or, for users who have opted into self-updating:
+     Select 'Disable caption renaming'.
  - Captioning is resource intensive. It is not recommended for people who do not Have a Cuda capable graphics card
  - This program has a self-update feature. Updating is Opt in. It is recommended to [review updates](https://github.com/T3RRYT3RR0R/Image-Sorter/tree/main/updates) prior to opting in.
 
