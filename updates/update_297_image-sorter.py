@@ -14,12 +14,6 @@ def fetch_all_updates_from_github(
     updates_dir: str = "./updates",
 ):
     # Fetch and cache self-update scripts from GitHub.
-    import os
-    import json
-    import datetime as dt
-    import requests
-    from pathlib import Path
-    from typing import Any, Dict
 
     # Ensure directories exist
     os.makedirs(config_dir, exist_ok=True)
